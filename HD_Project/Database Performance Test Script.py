@@ -272,7 +272,7 @@ def clear_data(db, is_mongodb):
 
 def main():
     NUM_RECORDS = 10000
-    NUM_RUNS = 5
+    NUM_RUNS = 30
 
     print(f"Running tests with {NUM_RECORDS} records, {NUM_RUNS} times each.\n")
 
@@ -283,15 +283,15 @@ def main():
     setup_mongodb_join_data(mongo_db)
     setup_postgresql_join_data(postgres_db)
 
+    clear_data(mongo_db, True)
+
     print("MongoDB Tests:")
     mongo_results = run_test_suite(mongo_db, True, NUM_RECORDS, NUM_RUNS)
 
-    clear_data(mongo_db, True)
+    clear_data(postgres_db, False)
 
     print("\nPostgreSQL Tests:")
     postgres_results = run_test_suite(postgres_db, False, NUM_RECORDS, NUM_RUNS)
-
-    clear_data(postgres_db, False)
 
     print("\nComparison:")
     for test_name in mongo_results.keys():
